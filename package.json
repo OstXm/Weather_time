@@ -4,9 +4,15 @@
   "description": "A React component package to display weather and time in Next.js applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "prepare": "npm run build",
+    "prepack": "npm run build",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx"
   },
