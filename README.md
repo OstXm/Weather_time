@@ -48,6 +48,51 @@ export default function Home() {
 }
 ```
 
+### Utilisation dans un autre projet Next.js avec proxy API
+
+Si ton site a une politique CSP stricte (ou bloque les appels externes), passe par une route API locale:
+
+```tsx
+import { WeatherTimeWidget } from 'weather-time-widget';
+
+export default function Home() {
+  return (
+    <WeatherTimeWidget
+      latitude={48.8566}
+      longitude={2.3522}
+      weatherApiUrl="/api/weather"
+    />
+  );
+}
+```
+
+Crée ensuite `app/api/weather/route.ts` dans ton projet Next.js:
+
+```ts
+import { NextRequest, NextResponse } from 'next/server';
+
+const OPEN_METEO_API = 'https://api.open-meteo.com/v1/forecast';
+
+export async function GET(request: NextRequest) {
+  const query = request.nextUrl.searchParams.toString();
+  const targetUrl = `${OPEN_METEO_API}?${query}`;
+
+  const response = await fetch(targetUrl, {
+    next: { revalidate: 600 },
+  });
+
+  const body = await response.text();
+
+  return new NextResponse(body, {
+    status: response.status,
+    headers: {
+      'content-type': response.headers.get('content-type') || 'application/json',
+      'cache-control': 'public, s-maxage=600, stale-while-revalidate=60',
+    },
+  });
+}
+```
+
 ### Composants individuels
 
 ```tsx
@@ -86,6 +131,7 @@ Composant complet affichant la météo et l'heure.
 - `units?: 'metric' | 'imperial'` - Unités (défaut: 'metric')
 - `className?: string` - Classes CSS personnalisées
 - `refreshInterval?: number` - Intervalle de mise à jour en ms (défaut: 600000 = 10 min)
+- `weatherApiUrl?: string` - Endpoint météo (défaut: Open-Meteo). Ex: `/api/weather` avec proxy Next.js
 
 ### `<WeatherDisplay />`
 
@@ -106,13 +152,14 @@ Affiche l'heure actuelle avec support de fuseau horaire.
 - `showDate?: boolean` - Afficher la date (défaut: false)
 - `className?: string` - Classes CSS personnalisées
 
-### `useWeather(coords, refreshInterval?)`
+### `useWeather(coords, refreshInterval?, weatherApiUrl?)`
 
 Hook pour récupérer les données météorologiques.
 
 **Paramètres:**
 - `coords: { latitude: number; longitude: number }` - Coordonnées du lieu
 - `refreshInterval?: number` - Intervalle de mise à jour en ms (défaut: 600000)
+- `weatherApiUrl?: string` - URL de l'API météo (défaut: Open-Meteo)
 
 **Retourne:**
 ```typescript

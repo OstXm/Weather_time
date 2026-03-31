@@ -14,10 +14,12 @@ export function WeatherTimeWidget({
   showWeather = true,
   units = 'metric',
   refreshInterval = 600000,
+  weatherApiUrl,
 }: WeatherWidgetProps) {
   const { weather, error, loading } = useWeather(
     { latitude, longitude },
-    refreshInterval
+    refreshInterval,
+    weatherApiUrl
   );
 
   if (error) {

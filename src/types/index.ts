@@ -28,6 +28,7 @@ export interface WeatherWidgetProps {
   showWeather?: boolean;
   units?: 'metric' | 'imperial';
   refreshInterval?: number;
+  weatherApiUrl?: string;
 }
 
 export interface TimeDisplayProps {
