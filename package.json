@@ -1,0 +1,36 @@
+{
+  "name": "weather-time-widget",
+  "version": "1.0.0",
+  "description": "A React component package to display weather and time in Next.js applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "keywords": [
+    "weather",
+    "time",
+    "next.js",
+    "react",
+    "component",
+    "widget"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "next": "^13.0.0"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.263.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
