@@ -65,7 +65,7 @@ export function WeatherDisplay({
         <div className="flex items-center gap-2">
           <Droplets className="w-4 h-4 text-blue-400" />
           <div>
-            <p className="text-xs text-gray-500">Humidity</p>
+            <p className="text-xs text-gray-500">Humility</p>
             <p className="text-sm font-semibold text-gray-700">
               {data.humidity}%
             </p>
